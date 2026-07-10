@@ -1,0 +1,276 @@
+/* public/css/styles.css */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4f6f9 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+.auth-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.6rem;
+}
+
+.info-box {
+    background: #eef2f7;
+    padding: 15px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+    color: #4a5568;
+    border-left: 4px solid #007bff;
+}
+
+.info-box ul {
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: #4a5568;
+    font-weight: 600;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+input:focus {
+    border-color: #007bff;
+}
+
+.error-msg {
+    color: #e53e3e;
+    font-size: 0.8rem;
+    margin-top: 4px;
+    display: block;
+}
+
+.success-msg {
+    color: #38a169;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+    text-align: center;
+    display: block;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.link-container {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.link-container a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.link-container a:hover {
+    text-decoration: underline;
+}
+
+.g-recaptcha {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* ==========================================================================
+   Adaptación para Formulario de Registro (Sin alterar el Blade)
+   ========================================================================== */
+
+/* Hace que el cuerpo se comporte igual que el login */
+body.login-body {
+    background-color: #f4f6f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Transforma tu formulario actual en la tarjeta blanca centrada */
+form.login-form {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column; /* Esto obliga a que todo se alinee hacia abajo */
+}
+
+/* Estiliza las etiquetas de texto dentro de este formulario */
+form.login-form label {
+    font-size: 0.9rem;
+    margin-top: 15px; /* Crea espacio arriba de cada etiqueta */
+    margin-bottom: 5px;
+    color: #4a5568;
+    font-weight: 600;
+    text-align: left;
+}
+
+/* Asegura que los inputs abarquen todo el ancho de la tarjeta */
+form.login-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+form.login-form input:focus {
+    border-color: #007bff;
+}
+
+/* Estilo estandarizado para los cuadros de requisitos */
+form.login-form .info-box {
+    background: #eef2f7;
+    padding: 15px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    color: #4a5568;
+    border-left: 4px solid #007bff; /* Borde azul de tu login */
+}
+
+form.login-form .info-box ul {
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+/* --- ESTILOS GLOBALES: INVENTORI POS --- */
+
+/* Header principal robustecido */
+.main-header {
+    background-color: #ffffff;
+    padding: 2.5rem 1rem; /* Más alto para que respire y luzca imponente */
+    border-bottom: 1px solid #e3e6f0;
+    margin-bottom: 2rem;
+}
+
+/* Contenedor del Logo de la Empresa */
+.brand-logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.brand-logo-placeholder {
+    width: 45px;
+    height: 45px;
+    background-color: #0d6efd;
+    color: #ffffff;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Área designada para los futuros menús y navegación */
+.nav-menu-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* --- CONFIGURACIONES DE RESPONSIVIDAD GLOBAL --- */
+
+/* Forzar que la barra oscura tenga buena presencia en pantallas grandes */
+.main-navbar-custom {
+    min-height: 80px;
+}
+
+/* Contenedor dinámico para evitar que las tablas rompan las pantallas de celulares */
+.custom-content-card {
+    overflow-x: auto;
+}
+
+.table-responsive {
+    width: 100%;
+    margin-bottom: 0;
+    overflow-y: hidden;
+    overflow-x: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 6px;
+}
+
+/* --- COMPONENTE: AVISO DE PRIVACIDAD MANDATORIO --- */
+.privacy-scroll-box {
+    max-height: 220px;
+    overflow-y: scroll;
+    border: 1px solid #dee2e6 !important;
+    line-height: 1.5;
+}
+
+/* Estilo visual sutil para la barra de scroll del aviso */
+.privacy-scroll-box::-webkit-scrollbar {
+    width: 6px;
+}
+.privacy-scroll-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+.privacy-scroll-box::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+.privacy-scroll-box::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
