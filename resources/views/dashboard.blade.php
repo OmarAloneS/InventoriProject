@@ -39,6 +39,22 @@
                                     <i class="fas fa-shield-alt text-muted me-2"></i> Revisar Aviso de Privacidad
                                 </button>
                             </li>
+
+                            <!-- OPCIÓN: CONTROL DE DERECHOS ARCO -->
+                            @if(Auth::user()->status === 'activo')
+                                <li>
+                                    <button type="button" class="dropdown-item py-2 small text-danger" onclick="abrirModalARCO()">
+                                        <i class="fas fa-user-shield me-2"></i> Ejercer Derechos ARCO
+                                    </button>
+                                </li>
+                            @elseif(Auth::user()->status === 'solicitado_arco')
+                                <li>
+                                    <span class="dropdown-item py-2 small text-muted disabled">
+                                        <i class="fas fa-hourglass-half me-2"></i> ARCO en revisión
+                                    </span>
+                                </li>
+                            @endif
+
                             <li><hr class="dropdown-divider"></li>
                             <!-- OPCIÓN: Cerrar Sesión -->
                             <li>
@@ -49,6 +65,7 @@
                                     </button>
                                 </form>
                             </li>
+
                         </ul>
                     </div>
                 </div>
@@ -198,5 +215,63 @@
         });
     </script>
     @endif
+
+    <!-- Modal de Derechos ARCO -->
+    <div id="modalARCO" class="modal-arco-backdrop" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%;">
+        <div class="modal-arco-card">
+            
+            <h3 class="modal-arco-title">
+                🛡️ Ejercicio de Derechos ARCO
+            </h3>
+            <p class="modal-arco-subtitle">Solicitud de Oposición / Cancelación de Datos</p>
+            
+            <hr class="modal-arco-hr">
+            
+            <p class="modal-arco-text">
+                Al enviar esta solicitud, manifiestas formalmente tu deseo de que la empresa deje de tratar y procesar tus datos personales en el sistema.
+            </p>
+            
+            <ul class="modal-arco-list">
+                <li>Tu petición será enviada y revisada por el <strong>Super Administrador</strong>.</li>
+                <li>Una vez aceptada, se <strong>cerrará tu sesión de inmediato</strong> y tu cuenta quedará suspendida.</li>
+                <li>Por ley, tus datos no se borrarán de golpe; se mantendrán bloqueados de forma segura por un período de <strong>5 años</strong> antes de su eliminación definitiva.</li>
+            </ul>
+
+            <div class="modal-arco-warning">
+                ⚠️ <strong>Atención:</strong> Esta acción restringirá por completo tu acceso al sistema hasta que solicites tu reintegración.
+            </div>
+
+            <hr class="modal-arco-hr">
+
+            <!-- Formulario que conecta con la ruta de Laravel -->
+            <form action="{{ route('arco.solicitar') }}" method="POST" class="modal-arco-actions">
+                @csrf
+                <button type="button" onclick="cerrarModalARCO()" class="btn-arco-cancel">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn-arco-submit">
+                    Enviar Solicitud
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Alerta de confirmación (si deseas colocarla en la parte superior de tu vista) -->
+    @if(session('arco_enviado'))
+        <div class="alert-arco-success">
+             {{ session('arco_enviado') }}
+        </div>
+    @endif
+
+    <!-- Script de control simple -->
+    <script>
+    function abrirModalARCO() {
+        document.getElementById('modalARCO').style.display = 'flex';
+    }
+
+    function cerrarModalARCO() {
+        document.getElementById('modalARCO').style.display = 'none';
+    }
+    </script>  
 </body>
 </html>
