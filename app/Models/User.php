@@ -23,6 +23,9 @@ class User extends Authenticatable
         'email',
         'password',
         'id_rol',
+        'status',            
+        'arco_requested_at', 
+        'arco_resolved_at',  
     ];
 
     /**
