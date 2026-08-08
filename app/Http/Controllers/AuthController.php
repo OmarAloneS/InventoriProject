@@ -34,7 +34,7 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Registro exitoso. Espera a que un administrador valide tu rol.');
     }
 
-// Procesar el Login
+    // Procesar el Login
     public function login(Request $request)
     {
         // Creamos la llave única usando una estructura limpia (usando Str::lower es más seguro)
@@ -86,11 +86,13 @@ class AuthController extends Controller
             if ($user->id_rol == 3) {
                 // Si es Superadmin, lo mandamos directo al catálogo de usuarios
                 return redirect()->route('usuarios.index');
-            } elseif ($user->id_rol == 1) {
-                // Si es Admin, mándalo a su sección correspondiente
-                return redirect()->route('dashboard'); 
+            }elseif ($user->id_rol == 1) {
+                // Administrador -> Recepción e Inventario
+                return redirect()->route('admin.recepcion.index'); 
+            } elseif ($user->id_rol == 2) {
+                // Empleado Mostrador -> Punto de Venta 
+                return redirect()->route('empleado.pos');
             }
-
             return redirect()->intended('/dashboard');
         }
 

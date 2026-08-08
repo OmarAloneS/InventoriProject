@@ -8,28 +8,37 @@ use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
-    // 1. Listar todos los usuarios en una tabla
-    public function index()
+    // Listar usuarios filtrando los bloqueados por ARCO
+    public function index(Request $request)
     {
-        $usuarios = User::all();
-        // Retorna la vista pasando la colección de usuarios
-        return view('superadmin.usuarios.index', compact('usuarios'));
+        $verBloqueados = $request->query('ver_bloqueados', 0);
+
+        $query = User::query();
+
+        if (!$verBloqueados) {
+            $query->where('status', '!=', 'bloqueado_arco')
+                  ->orWhereNull('status');
+        }
+
+        $usuarios = $query->get();
+
+        return view('superadmin.usuarios.index', compact('usuarios', 'verBloqueados'));
     }
 
-    // 2. Mostrar el formulario de creación
+    // Mostrar el formulario de creación
     public function create()
     {
         return view('superadmin.usuarios.create');
     }
 
-    // 3. Guardar el nuevo usuario en la base de datos
+    // Guardar el nuevo usuario en la base de datos
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'id_rol' => 'required|in:1,2,3', // Valida que solo sean los roles existentes
+            'id_rol' => 'required|in:1,2,3',
         ]);
 
         User::create([
@@ -42,60 +51,95 @@ class UsuarioController extends Controller
         return redirect()->route('usuarios.index')->with('success', 'Usuario creado exitosamente.');
     }
 
-    // --- AGREGA ESTA FUNCIÓN PARA MOSTRAR EL FORMULARIO DE EDICIÓN ---
+    // Mostrar el formulario de edición
     public function edit($id)
     {
-        // Buscamos al usuario por su ID en la base de datos
-        // Si no existe, lanza un error 404 (página no encontrada) automáticamente
         $usuario = User::findOrFail($id);
 
-        // Retornamos la vista 'edit.blade.php' que ya creamos antes, pasándole los datos del usuario
         return view('superadmin.usuarios.edit', compact('usuario'));
     }
 
-    // --- AGREGA ESTA FUNCIÓN PARA PROCESAR LOS CAMBIOS DE LA EDICIÓN ---
+    // Guardar cambios del formulario de edición
     public function update(Request $request, $id)
     {
-        // 1. Buscamos al usuario
         $usuario = User::findOrFail($id);
 
-        // 2. Validamos los datos recibidos del formulario
         $request->validate([
             'name' => 'required|string|max:255',
-            // unique:users,email,[id] -> permite guardar el mismo correo si no se cambió
             'email' => 'required|string|email|max:255|unique:users,email,' . $usuario->id,
-            // nullable -> permite dejar la contraseña en blanco si no se quiere cambiar
             'password' => 'nullable|string|min:8|confirmed',
             'id_rol' => 'required|in:1,2,3',
         ]);
 
-        // 3. Actualizamos los campos básicos
         $usuario->name = $request->name;
         $usuario->email = $request->email;
         $usuario->id_rol = $request->id_rol;
 
-        // 4. Solo actualizamos la contraseña si el Superadmin escribió algo
         if ($request->filled('password')) {
             $usuario->password = Hash::make($request->password);
         }
 
-        // 5. Guardamos los cambios en la base de datos
         $usuario->save();
 
-        // 6. Redirigimos a la tabla principal con un mensaje de éxito
         return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
     }
 
-    // --- FUNCIÓN PARA ELIMINAR EL USUARIO DE LA BASE DE DATOS ---
+    // Eliminar el usuario de la base de datos
     public function destroy($id)
     {
-        // 1. Buscamos al usuario por su ID
         $usuario = User::findOrFail($id);
         
-        // 2. Lo borramos de la tabla
         $usuario->delete();
 
-        // 3. Recargamos la tabla con el mensaje de éxito
-        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente del sistema.');
+        return redirect()->route('usuarios.index')->with('success', 'Usuario de baja del sistema.');
+    }
+
+    // Solicitar derecho ARCO desde la cuenta del usuario
+    public function solicitarArco(Request $request)
+    {
+        $user = auth()->user();
+
+        $user->update([
+            'status' => 'solicitado_arco',
+            'arco_requested_at' => now(),
+        ]);
+
+        return redirect()->back()->with('arco_enviado', 'Tu solicitud de derechos ARCO ha sido enviada con éxito.');
+    }
+
+    // Aprobar solicitud y bloquear usuario
+    public function aprobarArco($id)
+    {
+        $usuario = User::findOrFail($id);
+        
+        $usuario->update([
+            'status' => 'bloqueado_arco'
+        ]);
+
+        return redirect()->route('usuarios.index')->with('success', "La solicitud ARCO de {$usuario->name} ha sido aprobada. Su cuenta ahora está bloqueada.");
+    }
+
+    // Rechazar la solicitud ARCO y activar usuario
+    public function rechazarArco($id)
+    {
+        $usuario = User::findOrFail($id);
+        
+        $usuario->update([
+            'status' => 'activo' 
+        ]);
+
+        return redirect()->route('usuarios.index')->with('status', "La solicitud ARCO de {$usuario->name} ha sido rechazada.");
+    }
+
+    // Reactivar usuario bloqueado por ARCO
+    public function reactivarArco($id)
+    {
+        $usuario = User::findOrFail($id);
+        
+        $usuario->update([
+            'status' => 'activo'
+        ]);
+
+        return redirect()->route('usuarios.index')->with('success', "La cuenta de {$usuario->name} ha sido reactivada con éxito.");
     }
 }
