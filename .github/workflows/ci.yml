@@ -11,7 +11,7 @@ jobs:
         with: { node-version: '20' }
       - run: composer install --no-interaction --prefer-dist
       - run: cp .env.example .env && php artisan key:generate
-      - run: npm ci && npm run build
+      - run: npm install && npm run build
       - run: vendor/bin/phpstan analyse --no-progress
       - run: php artisan test --log-junit=junit.xml
       - uses: actions/upload-artifact@v4
