@@ -9,7 +9,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            // Esto creará el campo en tu tabla users justo después de id_rol
             $table->tinyInteger('acepto_aviso')->default(0)->after('id_rol');
         });
     }

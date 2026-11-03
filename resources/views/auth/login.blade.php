@@ -39,12 +39,16 @@
             </div>
 
             <!-- Contenedor del reCAPTCHA -->
-           <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+           <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
 
             <button type="submit">Ingresar</button>
 
             <div class="link-container">
                 <a href="{{ route('register') }}">¿No tienes cuenta? Regístrate aquí</a>
+            </div>
+            
+            <div class="link-container">
+                <a href="{{ route('password.request') }}" class="text-muted small">¿Olvidaste tu contraseña?</a>
             </div>
         </form>
     </div>

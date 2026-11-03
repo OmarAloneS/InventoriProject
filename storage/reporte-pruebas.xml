@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="C:\xampp\htdocs\inventori\phpunit.xml" tests="21" assertions="32" errors="0" failures="0" skipped="0" time="0.529521">
+    <testsuite name="Unit" tests="6" assertions="11" errors="0" failures="0" skipped="0" time="0.285818">
+      <testsuite name="Tests\Unit\ActualizarStockProductoTest" file="C:\xampp\htdocs\inventori\tests\Unit\ActualizarStockProductoTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.211567">
+        <testcase name="el_stock_de_un_producto_se_actualiza_correctamente" file="C:\xampp\htdocs\inventori\tests\Unit\ActualizarStockProductoTest.php" line="15" class="Tests\Unit\ActualizarStockProductoTest" classname="Tests.Unit.ActualizarStockProductoTest" assertions="1" time="0.211567"/>
+      </testsuite>
+      <testsuite name="Tests\Unit\CalculoPreciosProductoTest" file="C:\xampp\htdocs\inventori\tests\Unit\CalculoPreciosProductoTest.php" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="0.017233">
+        <testcase name="los_precios_en_usd_y_mxn_se_almacenan_con_precision_decimal" file="C:\xampp\htdocs\inventori\tests\Unit\CalculoPreciosProductoTest.php" line="15" class="Tests\Unit\CalculoPreciosProductoTest" classname="Tests.Unit.CalculoPreciosProductoTest" assertions="2" time="0.017233"/>
+      </testsuite>
+      <testsuite name="Tests\Unit\EliminarProductoTest" file="C:\xampp\htdocs\inventori\tests\Unit\EliminarProductoTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.016427">
+        <testcase name="un_producto_puede_ser_eliminado_del_inventario" file="C:\xampp\htdocs\inventori\tests\Unit\EliminarProductoTest.php" line="15" class="Tests\Unit\EliminarProductoTest" classname="Tests.Unit.EliminarProductoTest" assertions="1" time="0.016427"/>
+      </testsuite>
+      <testsuite name="Tests\Unit\RegistroProductoTest" file="C:\xampp\htdocs\inventori\tests\Unit\RegistroProductoTest.php" tests="2" assertions="6" errors="0" failures="0" skipped="0" time="0.026462">
+        <testcase name="un_producto_se_registra_correctamente_con_sus_datos_validos" file="C:\xampp\htdocs\inventori\tests\Unit\RegistroProductoTest.php" line="15" class="Tests\Unit\RegistroProductoTest" classname="Tests.Unit.RegistroProductoTest" assertions="5" time="0.014045"/>
+        <testcase name="falla_el_registro_si_falta_un_campo_obligatorio" file="C:\xampp\htdocs\inventori\tests\Unit\RegistroProductoTest.php" line="44" class="Tests\Unit\RegistroProductoTest" classname="Tests.Unit.RegistroProductoTest" assertions="1" time="0.012417"/>
+      </testsuite>
+      <testsuite name="Tests\Unit\ReglasNegocioStockTest" file="C:\xampp\htdocs\inventori\tests\Unit\ReglasNegocioStockTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.014129">
+        <testcase name="se_puede_consultar_si_un_producto_tiene_stock_disponible" file="C:\xampp\htdocs\inventori\tests\Unit\ReglasNegocioStockTest.php" line="15" class="Tests\Unit\ReglasNegocioStockTest" classname="Tests.Unit.ReglasNegocioStockTest" assertions="1" time="0.014129"/>
+      </testsuite>
+    </testsuite>
+    <testsuite name="Feature" tests="15" assertions="21" errors="0" failures="0" skipped="0" time="0.243703">
+      <testsuite name="Tests\Feature\AceptacionProductoTest" file="C:\xampp\htdocs\inventori\tests\Feature\AceptacionProductoTest.php" tests="5" assertions="7" errors="0" failures="0" skipped="0" time="0.103075">
+        <testcase name="un_usuario_puede_ver_el_formulario_de_productos" file="C:\xampp\htdocs\inventori\tests\Feature\AceptacionProductoTest.php" line="16" class="Tests\Feature\AceptacionProductoTest" classname="Tests.Feature.AceptacionProductoTest" assertions="1" time="0.047018"/>
+        <testcase name="el_sistema_registra_y_persiste_un_producto_correctamente_desde_el_flujo_web" file="C:\xampp\htdocs\inventori\tests\Feature\AceptacionProductoTest.php" line="29" class="Tests\Feature\AceptacionProductoTest" classname="Tests.Feature.AceptacionProductoTest" assertions="1" time="0.010503"/>
+        <testcase name="un_usuario_no_autenticado_es_redirigido_si_intenta_ver_productos" file="C:\xampp\htdocs\inventori\tests\Feature\AceptacionProductoTest.php" line="49" class="Tests\Feature\AceptacionProductoTest" classname="Tests.Feature.AceptacionProductoTest" assertions="3" time="0.014071"/>
+        <testcase name="el_sistema_muestra_el_dashboard_correctamente_a_un_usuario_logueado" file="C:\xampp\htdocs\inventori\tests\Feature\AceptacionProductoTest.php" line="60" class="Tests\Feature\AceptacionProductoTest" classname="Tests.Feature.AceptacionProductoTest" assertions="1" time="0.018024"/>
+        <testcase name="un_usuario_puede_ver_la_vista_de_login_correctamente" file="C:\xampp\htdocs\inventori\tests\Feature\AceptacionProductoTest.php" line="70" class="Tests\Feature\AceptacionProductoTest" classname="Tests.Feature.AceptacionProductoTest" assertions="1" time="0.013459"/>
+      </testsuite>
+      <testsuite name="Tests\Feature\InventoriIntegrationTest" file="C:\xampp\htdocs\inventori\tests\Feature\InventoriIntegrationTest.php" tests="5" assertions="7" errors="0" failures="0" skipped="0" time="0.079882">
+        <testcase name="integracion_de_autenticacion_y_acceso_al_dashboard" file="C:\xampp\htdocs\inventori\tests\Feature\InventoriIntegrationTest.php" line="16" class="Tests\Feature\InventoriIntegrationTest" classname="Tests.Feature.InventoriIntegrationTest" assertions="1" time="0.028151"/>
+        <testcase name="integracion_de_restriccion_por_middleware_de_invitados" file="C:\xampp\htdocs\inventori\tests\Feature\InventoriIntegrationTest.php" line="29" class="Tests\Feature\InventoriIntegrationTest" classname="Tests.Feature.InventoriIntegrationTest" assertions="1" time="0.014724"/>
+        <testcase name="integracion_de_persistencia_de_productos_con_base_de_datos" file="C:\xampp\htdocs\inventori\tests\Feature\InventoriIntegrationTest.php" line="41" class="Tests\Feature\InventoriIntegrationTest" classname="Tests.Feature.InventoriIntegrationTest" assertions="1" time="0.012221"/>
+        <testcase name="integracion_de_seguridad_en_rutas_protegidas_sin_sesion" file="C:\xampp\htdocs\inventori\tests\Feature\InventoriIntegrationTest.php" line="61" class="Tests\Feature\InventoriIntegrationTest" classname="Tests.Feature.InventoriIntegrationTest" assertions="3" time="0.011972"/>
+        <testcase name="integracion_de_consulta_y_existencia_de_vista_de_productos" file="C:\xampp\htdocs\inventori\tests\Feature\InventoriIntegrationTest.php" line="72" class="Tests\Feature\InventoriIntegrationTest" classname="Tests.Feature.InventoriIntegrationTest" assertions="1" time="0.012813"/>
+      </testsuite>
+      <testsuite name="Tests\Feature\InventoriRegressionTest" file="C:\xampp\htdocs\inventori\tests\Feature\InventoriRegressionTest.php" tests="5" assertions="7" errors="0" failures="0" skipped="0" time="0.060746">
+        <testcase name="regresion_evitar_stock_negativo_en_actualizaciones" file="C:\xampp\htdocs\inventori\tests\Feature\InventoriRegressionTest.php" line="16" class="Tests\Feature\InventoriRegressionTest" classname="Tests.Feature.InventoriRegressionTest" assertions="1" time="0.014096"/>
+        <testcase name="regresion_mantener_precision_decimal_en_precios" file="C:\xampp\htdocs\inventori\tests\Feature\InventoriRegressionTest.php" line="35" class="Tests\Feature\InventoriRegressionTest" classname="Tests.Feature.InventoriRegressionTest" assertions="3" time="0.011253"/>
+        <testcase name="regresion_validacion_de_campos_obligatorios_en_productos" file="C:\xampp\htdocs\inventori\tests\Feature\InventoriRegressionTest.php" line="53" class="Tests\Feature\InventoriRegressionTest" classname="Tests.Feature.InventoriRegressionTest" assertions="1" time="0.010910"/>
+        <testcase name="regresion_estado_de_usuario_inactivo_o_bloqueado" file="C:\xampp\htdocs\inventori\tests\Feature\InventoriRegressionTest.php" line="65" class="Tests\Feature\InventoriRegressionTest" classname="Tests.Feature.InventoriRegressionTest" assertions="1" time="0.012932"/>
+        <testcase name="regresion_integridad_al_eliminar_un_producto_del_inventario" file="C:\xampp\htdocs\inventori\tests\Feature\InventoriRegressionTest.php" line="76" class="Tests\Feature\InventoriRegressionTest" classname="Tests.Feature.InventoriRegressionTest" assertions="1" time="0.011557"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

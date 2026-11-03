@@ -23,13 +23,14 @@ class CheckRole
             return $next($request);
         }
 
-        // Si no tiene permiso, lo botamos a su respectiva pantalla según su rol
         if ($user->id_rol == 3) {
             return redirect()->route('superadmin.dashboard');
         } elseif ($user->id_rol == 1) {
             return redirect()->route('admin.productos');
+        } elseif ($user->id_rol == 2) {
+            return redirect()->route('empleado.pos');
         }
 
-        return redirect()->route('empleado.dashboard');
+        return redirect()->route('login');
     }
 }

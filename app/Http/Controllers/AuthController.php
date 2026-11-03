@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Auth\Events\Registered;
 
 class AuthController extends Controller
 {
@@ -24,14 +25,17 @@ class AuthController extends Controller
             'password' => ['required', 'confirmed', new ValidarPasswordEstricto],
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => strip_tags($request->name),
             'email' => filter_var($request->email, FILTER_SANITIZE_EMAIL),
             'password' => Hash::make($request->password),
             'id_rol' => 2,
+            'status' => 'inactivo', // <-- Único cambio: define la cuenta inactiva hasta verificar correo
         ]);
 
-        return redirect()->route('login')->with('success', 'Registro exitoso. Espera a que un administrador valide tu rol.');
+        event(new Registered($user));
+
+        return redirect()->route('login')->with('success', 'Registro exitoso. Revisa tu correo para activar tu cuenta.');
     }
 
     // Procesar el Login
@@ -57,13 +61,21 @@ class AuthController extends Controller
             'g-recaptcha-response.required' => 'Por favor, verifica que no eres un robot.'
         ]);
 
-        // 3. VERIFICACIÓN DE GOOGLE reCAPTCHA
-        $secret = env('RECAPTCHA_SECRET_KEY', '');
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => $secret,
-            'response' => $request->input('g-recaptcha-response'),
-            'remoteip' => $request->ip(),
-        ]);
+        // 3. VERIFICACIÓN DE GOOGLE reCAPTCHA (Optimizado para Docker/IPv4)
+        $secret = config('services.recaptcha.secret_key');
+        $response = Http::asForm()
+            ->withOptions([
+                'curl' => [
+                    CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
+                ],
+                'connect_timeout' => 3,
+                'timeout' => 5,
+            ])
+            ->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret' => $secret,
+                'response' => $request->input('g-recaptcha-response'),
+                'remoteip' => $request->ip(),
+            ]);
 
         if (!$response->json()['success']) {
             return back()->withErrors(['captcha' => 'Error en la verificación de reCAPTCHA.'])->withInput($request->only('email'));
@@ -73,26 +85,37 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+            // OBTENEMOS EL USUARIO AUTENTICADO
+            $user = Auth::user();
+
+            // VALIDACIÓN DE CORREO VERIFICADO Y ESTATUS DE CUENTA
+            if (is_null($user->email_verified_at) || $user->status !== 'activo') {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'Debes confirmar tu correo electrónico antes de iniciar sesión. Revisa tu bandeja de entrada.'
+                ])->withInput($request->only('email'));
+            }
+
             // Si las credenciales son correctas, limpiamos el candado
             RateLimiter::clear($key);
 
             // Session Fixation Protection
             $request->session()->regenerate();
 
-            // OBTENEMOS EL USUARIO AUTENTICADO
-            $user = Auth::user();
-
             // Redirección inteligente según el id_rol
             if ($user->id_rol == 3) {
                 // Si es Superadmin, lo mandamos directo al catálogo de usuarios
                 return redirect()->route('usuarios.index');
+
             }elseif ($user->id_rol == 1) {
                 // Administrador -> Recepción e Inventario
                 return redirect()->route('admin.recepcion.index'); 
+
             } elseif ($user->id_rol == 2) {
                 // Empleado Mostrador -> Punto de Venta 
                 return redirect()->route('empleado.pos');
             }
+            
             return redirect()->intended('/dashboard');
         }
 

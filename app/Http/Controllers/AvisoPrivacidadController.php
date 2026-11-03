@@ -24,7 +24,8 @@ class AvisoPrivacidadController extends Controller
         $user->acepto_aviso = 1;
         $user->save();
 
-        // Lo redireccionamos al dashboard con un mensaje de éxito silencioso
-        return redirect()->route('dashboard')->with('success', 'Aviso de privacidad registrado correctamente.');
+        // En lugar de usar ->route('dashboard'), usamos back() 
+        // para que recargue la misma página donde estaba, pero ya con el modal oculto.
+        return redirect()->back()->with('status', 'Aviso de privacidad aceptado.');
     }
 }

@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property float|null $precio_venta
+ */
 class Producto extends Model
 {
     protected $fillable = [

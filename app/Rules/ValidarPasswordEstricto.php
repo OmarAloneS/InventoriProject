@@ -27,11 +27,6 @@ class ValidarPasswordEstricto implements ValidationRule
             return;
         }
 
-        // Mínimo un número
-        if (!preg_match('/[0-9]/', $value)) {
-            $fail('La contraseña debe contener al menos un número.');
-            return;
-        }
 
         // Convertimos a minúsculas para evaluar consecutividad de letras sin importar el "case"
         $lowerValue = strtolower($value);
