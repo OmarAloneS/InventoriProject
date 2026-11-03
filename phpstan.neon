@@ -1,0 +1,12 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    paths:
+        - app
+        - config
+        - database
+        - routes
+
+    # Nivel de análisis (del 0 al 9, donde 5 es un nivel estándar y seguro para empezar)
+    level: 5
